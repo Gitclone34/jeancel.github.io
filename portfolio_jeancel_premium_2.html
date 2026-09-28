@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio | Razanatsery Norbertin Jeancel — Dev & Philo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ── TOKENS ───────────────────────────────────────────── */
+:root {
+  --night:    #0A0F1E;
+  --marine:   #111827;
+  --violet:   #7C3AED;
+  --violet-l: #9F67FF;
+  --cyan:     #06B6D4;
+  --cyan-l:   #67E8F9;
+  --gold:     #F59E0B;
+  --white:    #F8FAFC;
+  --muted:    #94A3B8;
+  --border:   rgba(124,58,237,.25);
+  --glow-v:   rgba(124,58,237,.15);
+  --glow-c:   rgba(6,182,212,.12);
+
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-body:    'Inter', system-ui, sans-serif;
+  --ff-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  --ease-out: cubic-bezier(.16,1,.3,1);
+}
+
+/* ── RESET ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--night);
+  color: var(--white);
+  font-family: var(--ff-body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a  { color: inherit; text-decoration: none; }
+
+/* ── SCROLLBAR ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--night); }
+::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 2px; }
+
+/* ── AMBIENT BACKGROUND ───────────────────────────────── */
+.ambient {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+.blob {
+  position: absolute; border-radius: 50%;
+  filter: blur(90px); opacity: .18;
+  animation: drift 18s ease-in-out infinite alternate;
+}
+.blob-1 { width: 600px; height: 600px; background: var(--violet); top: -200px; left: -150px; animation-delay: 0s; }
+.blob-2 { width: 500px; height: 500px; background: var(--cyan);   bottom: -100px; right: -100px; animation-delay: -6s; }
+.blob-3 { width: 350px; height: 350px; background: var(--gold);   top: 40%; left: 55%; animation-delay: -12s; opacity: .08; }
+@keyframes drift {
+  from { transform: translate(0,0) scale(1); }
+  to   { transform: translate(30px, 40px) scale(1.08); }
+}
+
+/* ── NAV ──────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%; height: 70px;
+  background: rgba(10,15,30,.85);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  transition: background .3s;
+}
+.logo {
+  font-family: var(--ff-mono);
+  font-size: .95rem;
+  color: var(--cyan);
+}
+.logo span { color: var(--violet); }
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a {
+  font-size: .85rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .25s;
+  position: relative;
+}
+.nav-links a::after { 
+  content: '';
+  position: absolute; left: 0; bottom: -4px;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--cyan));
+  transition: width .3s var(--ease-out);
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  padding: .5rem 1.2rem;
+  border: 1px solid var(--violet);
+  border-radius: 6px;
+  font-size: .8rem;
+  color: var(--violet-l) !important;
+  transition: background .25s, color .25s !important;
+}
+.nav-cta:hover { background: var(--violet); color: var(--white) !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: .3s; }
+
+/* ── HERO ─────────────────────────────────────────────── */
+#home {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  padding: 100px 8% 60px;
+}
+.hero-text { max-width: 560px; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: var(--ff-mono);
+  font-size: .78rem;
+  color: var(--cyan);
+  letter-spacing: .1em;
+  margin-bottom: 1.5rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--cyan);
+}
+.hero-name {
+  font-family: var(--ff-display);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: .5rem;
+}
+.hero-name .gold { color: var(--gold); }
+.hero-title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 1.8rem;
+}
+.hero-title .accent { color: var(--violet-l); font-style: normal; font-weight: 600; }
+.hero-desc {
+  font-size: .95rem;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 2.5rem;
+}
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  padding: .8rem 1.8rem;
+  background: linear-gradient(135deg, var(--violet), var(--cyan));
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: .9rem;
+  color: var(--white);
+  transition: opacity .25s, transform .2s;
+  box-shadow: 0 0 24px rgba(124,58,237,.4);
+}
+.btn-primary:hover { opacity: .88; transform: translateY(-2px); }
+.btn-ghost {
+  padding: .8rem 1.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .9rem;
+  color: var(--muted);
+  transition: border-color .25s, color .25s, transform .2s;
+}
+.btn-ghost:hover { border-color: var(--violet); color: var(--violet-l); transform: translateY(-2px); }
+
+/* ── TERMINAL HERO ────────────────────────────────────── */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.terminal {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(17,24,39,.9);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(124,58,237,.1), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.terminal-bar {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .9rem 1rem;
+  background: rgba(255,255,255,.04);
+  border-bottom: 1px solid var(--border);
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-r { background: #FF5F57; }
+.dot-y { background: #FEBC2E; }
+.dot-g { background: #28C840; }
+.terminal-title {
+  flex: 1; text-align: center;
+  font-family: var(--ff-mono);
+  font-size: .72rem;
+  color: var(--muted);
+}
+.terminal-body {
+  padding: 1.4rem 1.6rem;
+  font-family: var(--ff-mono);
+  font-size: .82rem;
+  line-height: 1.9;
+  min-height: 220px;
+}
+.t-comment { color: #6A7590; }
+.t-kw  { color: var(--violet-l); }
+.t-fn  { color: var(--cyan); }
+.t-str { color: #A8E6CF; }
+.t-num { color: var(--gold); }
+.t-op  { color: var(--muted); }
+.t-var { color: #F8FAFC; }
+.cursor {
+  display: inline-block;
+  width: 8px; height: 1.1em;
+  background: var(--cyan);
+  animation: blink .8s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── STATS BAR ────────────────────────────────────────── */
+.stats-bar {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.stat {
+  background: rgba(10,15,30,.95);
+  padding: 2rem;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--ff-display);
+  font-size: 2.8rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--violet-l), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.stat-label { font-size: .78rem; color: var(--muted); margin-top: .4rem; letter-spacing: .05em; }
+
+/* ── SECTIONS ─────────────────────────────────────────── */
+section { position: relative; z-index: 1; }
+.section-inner { max-width: 1100px; margin: 0 auto; padding: 100px 5%; }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: var(--ff-mono);
+  font-size: .75rem;
+  color: var(--cyan);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.section-eyebrow::before { content: '//'; color: var(--violet); }
+.section-title {
+  font-family: var(--ff-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+.section-subtitle { color: var(--muted); max-width: 560px; margin-bottom: 3.5rem; }
+
+/* ── À PROPOS ─────────────────────────────────────────── */
+#about { background: rgba(17,24,39,.5); }
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+.about-img-wrap {
+  position: relative;
+  max-width: 380px;
+}
+.about-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border: 2px solid var(--violet);
+  border-radius: 18px;
+  opacity: .4;
+  transform: rotate(3deg);
+}
+.about-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -22px;
+  border: 1px solid var(--cyan);
+  border-radius: 22px;
+  opacity: .2;
+  transform: rotate(-2deg);
+}
+.about-img {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  filter: saturate(1.1);
+}
+.about-badge {
+  position: absolute;
+  bottom: -18px; right: -18px;
+  background: linear-gradient(135deg, var(--violet), var(--cyan));
+  border-radius: 12px;
+  padding: 1rem 1.4rem;
+  font-family: var(--ff-mono);
+  font-size: .75rem;
+  box-shadow: 0 16px 40px rgba(124,58,237,.4);
+  z-index: 2;
+}
+.about-badge strong { display: block; font-size: 1.6rem; font-family: var(--ff-display); }
+.about-text h3 {
+  font-family: var(--ff-display);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+.about-text p { color: var(--muted); margin-bottom: 1rem; font-size: .95rem; }
+.about-text p strong { color: var(--violet-l); }
+
+/* ── COMPÉTENCES ──────────────────────────────────────── */
+.skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+.skill-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.4rem 1.6rem;
+  transition: border-color .3s, background .3s;
+}
+.skill-card:hover { border-color: var(--violet); background: var(--glow-v); }
+.skill-head { display: flex; justify-content: space-between; margin-bottom: .8rem; }
+.skill-name { font-weight: 600; font-size: .9rem; }
+.skill-pct { font-family: var(--ff-mono); font-size: .82rem; color: var(--cyan); }
+.skill-track {
+  height: 4px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden;
+}
+.skill-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--violet), var(--cyan));
+  width: 0;
+  transition: width 1.2s var(--ease-out);
+}
+
+/* ── SERVICES ─────────────────────────────────────────── */
+#services { background: var(--night); }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.service-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.2rem;
+  transition: transform .3s var(--ease-out), border-color .3s, box-shadow .3s;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--violet), var(--cyan));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s var(--ease-out);
+}
+.service-card:hover { transform: translateY(-6px); border-color: var(--violet); box-shadow: 0 24px 60px rgba(124,58,237,.15); }
+.service-card:hover::before { transform: scaleX(1); }
+.service-icon {
+  font-size: 2rem; margin-bottom: 1.2rem;
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--glow-v);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.service-card h3 { font-size: 1.1rem; margin-bottom: .7rem; }
+.service-card p { color: var(--muted); font-size: .88rem; line-height: 1.7; }
+
+/* ── PORTFOLIO ────────────────────────────────────────── */
+#portfolio { background: rgba(17,24,39,.4); }
+.filter-bar { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.filter-btn {
+  padding: .45rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  background: transparent;
+  transition: .25s;
+}
+.filter-btn.active, .filter-btn:hover {
+  background: var(--violet);
+  border-color: var(--violet);
+  color: var(--white);
+}
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.project-card {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: rgba(17,24,39,.8);
+  transition: transform .3s var(--ease-out), box-shadow .3s;
+  cursor: pointer;
+}
+.project-card:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(0,0,0,.4); }
+.project-thumb {
+  position: relative; overflow: hidden;
+  height: 200px;
+}
+.project-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease-out); }
+.project-card:hover .project-thumb img { transform: scale(1.06); }
+.project-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(10,15,30,.95));
+  display: flex; align-items: flex-end; padding: 1rem;
+  opacity: 0; transition: opacity .3s;
+}
+.project-card:hover .project-overlay { opacity: 1; }
+.project-link {
+  font-size: .78rem; font-family: var(--ff-mono);
+  color: var(--cyan); display: flex; align-items: center; gap: .3rem;
+}
+.project-info { padding: 1.2rem; }
+.project-type {
+  font-family: var(--ff-mono); font-size: .7rem;
+  color: var(--violet-l); letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: .4rem;
+}
+.project-info h3 { font-size: 1rem; margin-bottom: .4rem; }
+.project-info p { font-size: .82rem; color: var(--muted); }
+
+/* ── CONTACT ──────────────────────────────────────────── */
+#contact { background: var(--night); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
+.contact-info { display: flex; flex-direction: column; gap: 1.8rem; }
+.contact-item { display: flex; gap: 1rem; align-items: flex-start; }
+.contact-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  background: var(--glow-v);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.contact-item h4 { font-size: .82rem; color: var(--muted); margin-bottom: .2rem; }
+.contact-item p { font-size: .95rem; }
+.contact-form { display: flex; flex-direction: column; gap: 1rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { display: flex; flex-direction: column; gap: .4rem; }
+.form-group label { font-size: .8rem; color: var(--muted); font-weight: 500; }
+.form-group input,
+.form-group textarea {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .85rem 1rem;
+  color: var(--white);
+  font-family: var(--ff-body);
+  font-size: .9rem;
+  transition: border-color .25s, background .25s;
+  outline: none;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--violet);
+  background: rgba(124,58,237,.06);
+}
+.form-group textarea { resize: vertical; min-height: 130px; }
+
+/* ── FOOTER ───────────────────────────────────────────── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 3rem 8%;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo { font-family: var(--ff-mono); font-size: .9rem; color: var(--cyan); }
+.footer-logo span { color: var(--violet); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: .8rem; color: var(--muted); transition: color .25s; }
+.footer-links a:hover { color: var(--violet-l); }
+.footer-copy { font-size: .78rem; color: #475569; }
+.social-links { display: flex; gap: .8rem; }
+.social-btn {
+  width: 38px; height: 38px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem;
+  color: var(--muted);
+  transition: border-color .25s, color .25s, background .25s;
+}
+.social-btn:hover { border-color: var(--violet); color: var(--violet-l); background: var(--glow-v); }
+
+/* ── DEMO BADGE ───────────────────────────────────────── */
+.demo-badge {
+  margin-top: .8rem;
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .4rem 1rem;
+  background: linear-gradient(135deg, var(--violet), var(--cyan));
+  border: none; border-radius: 20px;
+  font-size: .75rem; font-weight: 600;
+  color: var(--white); cursor: pointer;
+  transition: opacity .2s, transform .2s;
+}
+.demo-badge:hover { opacity: .85; transform: scale(1.04); }
+
+/* ── MODAL OVERLAY ────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(5,8,20,.88);
+  backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #0F1628;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  width: 100%; max-width: 900px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: 0 40px 100px rgba(0,0,0,.7);
+  animation: modalIn .35s var(--ease-out);
+}
+@keyframes modalIn {
+  from { opacity:0; transform: scale(.94) translateY(20px); }
+  to   { opacity:1; transform: none; }
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,.03);
+  flex-shrink: 0;
+}
+.modal-dots { display: flex; gap: .4rem; }
+.modal-title { font-family: var(--ff-mono); font-size: .8rem; color: var(--muted); }
+.modal-close {
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--muted); font-size: 1.1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, color .2s;
+}
+.modal-close:hover { background: rgba(255,80,80,.15); color: #FF5F57; }
+.modal-body { overflow-y: auto; flex: 1; }
+
+/* ── DEMO: BACHELARD ──────────────────────────────────── */
+.demo-bachelard { font-family: var(--ff-body); }
+.bach-nav {
+  display: flex; gap: 0; background: rgba(255,255,255,.04);
+  border-bottom: 1px solid var(--border);
+}
+.bach-tab {
+  padding: .7rem 1.2rem; font-size: .8rem; font-weight: 500;
+  color: var(--muted); cursor: pointer; border: none; background: transparent;
+  border-bottom: 2px solid transparent; transition: .2s; white-space: nowrap;
+}
+.bach-tab.active { color: var(--violet-l); border-bottom-color: var(--violet); }
+.bach-tab:hover:not(.active) { color: var(--white); }
+.bach-page { display: none; padding: 2rem; }
+.bach-page.active { display: block; }
+.bach-hero {
+  background: linear-gradient(135deg, rgba(124,58,237,.15), rgba(6,182,212,.1));
+  border: 1px solid var(--border); border-radius: 14px;
+  padding: 2.5rem; text-align: center; margin-bottom: 2rem;
+}
+.bach-hero h1 { font-family: var(--ff-display); font-size: 1.8rem; margin-bottom: .5rem; }
+.bach-hero p { color: var(--muted); font-style: italic; }
+.bach-quote {
+  background: rgba(245,158,11,.07); border-left: 3px solid var(--gold);
+  padding: 1rem 1.4rem; border-radius: 0 8px 8px 0;
+  font-family: var(--ff-display); font-style: italic;
+  color: var(--white); margin: 1.5rem 0;
+}
+.bach-quote cite { display: block; font-size: .78rem; color: var(--gold); font-style: normal; margin-top: .5rem; }
+.bach-section-title { font-family: var(--ff-display); font-size: 1.2rem; margin: 1.5rem 0 .8rem; color: var(--violet-l); }
+.bach-card {
+  background: rgba(255,255,255,.04); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.2rem; margin-bottom: 1rem;
+}
+.bach-card h4 { font-size: .9rem; margin-bottom: .4rem; color: var(--cyan); }
+.bach-card p { font-size: .85rem; color: var(--muted); }
+.bach-timeline { position: relative; padding-left: 1.5rem; }
+.bach-timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background: linear-gradient(var(--violet),var(--cyan)); }
+.bach-event { margin-bottom: 1.2rem; position: relative; }
+.bach-event::before { content:''; position:absolute; left:-1.9rem; top:.35rem; width:10px; height:10px; border-radius:50%; background:var(--violet); border:2px solid var(--night); }
+.bach-event h4 { font-size: .88rem; color: var(--gold); }
+.bach-event p { font-size: .82rem; color: var(--muted); }
+
+/* ── DEMO: PDF TOOL ───────────────────────────────────── */
+.demo-pdf { font-family: var(--ff-body); }
+.pdf-layout { display: grid; grid-template-columns: 220px 1fr; height: 100%; }
+.pdf-sidebar {
+  border-right: 1px solid var(--border);
+  padding: 1rem; background: rgba(255,255,255,.02);
+}
+.pdf-sidebar h3 { font-size: .75rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: .8rem; }
+.pdf-file {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .55rem .7rem; border-radius: 8px;
+  font-size: .82rem; cursor: pointer; color: var(--muted);
+  transition: background .2s, color .2s;
+}
+.pdf-file.active { background: var(--glow-v); color: var(--violet-l); }
+.pdf-file:hover:not(.active) { background: rgba(255,255,255,.04); color: var(--white); }
+.pdf-file-icon { font-size: 1rem; }
+.pdf-main { padding: 1.4rem; overflow-y: auto; }
+.pdf-toolbar {
+  display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.2rem;
+}
+.pdf-btn {
+  padding: .4rem .9rem; border-radius: 6px; font-size: .78rem; font-weight: 500;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--muted); cursor: pointer; transition: .2s;
+}
+.pdf-btn:hover, .pdf-btn.active { background: var(--violet); border-color: var(--violet); color: var(--white); }
+.pdf-viewer {
+  background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.5rem; min-height: 280px;
+  font-size: .88rem; line-height: 1.8; color: var(--white);
+  position: relative;
+}
+.pdf-highlight { background: rgba(245,158,11,.25); border-radius: 2px; cursor: pointer; }
+.pdf-note {
+  background: rgba(124,58,237,.12); border: 1px solid var(--border);
+  border-radius: 8px; padding: .8rem 1rem; margin-top: 1rem; font-size: .82rem;
+}
+.pdf-note strong { color: var(--violet-l); }
+.pdf-stats { display: flex; gap: 1rem; margin-top: 1rem; }
+.pdf-stat { text-align: center; background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 8px; padding: .8rem 1.2rem; flex: 1; }
+.pdf-stat strong { display: block; font-size: 1.3rem; color: var(--cyan); font-family: var(--ff-mono); }
+.pdf-stat span { font-size: .75rem; color: var(--muted); }
+
+/* ── DEMO: FITNESS ────────────────────────────────────── */
+.demo-fitness { font-family: var(--ff-body); }
+.fit-header {
+  background: linear-gradient(135deg,rgba(124,58,237,.2),rgba(6,182,212,.1));
+  padding: 1.5rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.fit-header h2 { font-family: var(--ff-display); font-size: 1.2rem; }
+.fit-header p { font-size: .8rem; color: var(--muted); }
+.fit-streak { background: var(--glow-v); border: 1px solid var(--border); border-radius: 10px; padding: .6rem 1rem; text-align: center; }
+.fit-streak strong { font-size: 1.5rem; color: var(--gold); display: block; }
+.fit-streak span { font-size: .72rem; color: var(--muted); }
+.fit-body { padding: 1.5rem 2rem; }
+.fit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.fit-kpi { background: rgba(255,255,255,.04); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.2rem; }
+.fit-kpi .kpi-val { font-family: var(--ff-mono); font-size: 1.6rem; font-weight: 700; }
+.fit-kpi .kpi-lbl { font-size: .75rem; color: var(--muted); margin-top: .2rem; }
+.fit-kpi.purple .kpi-val { color: var(--violet-l); }
+.fit-kpi.cyan .kpi-val { color: var(--cyan); }
+.fit-kpi.gold .kpi-val { color: var(--gold); }
+.fit-section { margin-bottom: 1.5rem; }
+.fit-section h4 { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .8rem; }
+.fit-exercise {
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  border-radius: 10px; padding: .9rem 1rem; margin-bottom: .5rem;
+  transition: border-color .2s;
+}
+.fit-exercise:hover { border-color: var(--violet); }
+.fit-ex-icon { font-size: 1.4rem; width: 40px; text-align: center; }
+.fit-ex-info { flex: 1; }
+.fit-ex-info strong { font-size: .88rem; display: block; }
+.fit-ex-info span { font-size: .78rem; color: var(--muted); }
+.fit-ex-sets { font-family: var(--ff-mono); font-size: .82rem; color: var(--cyan); }
+.fit-check {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 2px solid var(--border); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .7rem; transition: .2s; flex-shrink: 0;
+}
+.fit-check.done { background: var(--violet); border-color: var(--violet); color: white; }
+.fit-macros { display: grid; grid-template-columns: repeat(4,1fr); gap: .8rem; }
+.fit-macro { background: rgba(255,255,255,.03); border:1px solid var(--border); border-radius:10px; padding:.8rem; text-align:center; }
+.fit-macro strong { display:block; font-size:1.1rem; font-family:var(--ff-mono); }
+.fit-macro span { font-size:.72rem; color:var(--muted); }
+.fit-macro-bar { height:4px; background:rgba(255,255,255,.08); border-radius:2px; margin-top:.5rem; overflow:hidden; }
+.fit-macro-fill { height:100%; border-radius:2px; }
+.fit-add-btn {
+  width:100%; padding:.8rem; border:2px dashed var(--border); border-radius:10px;
+  background:transparent; color:var(--muted); font-size:.85rem; cursor:pointer;
+  transition:.2s; margin-top:.5rem;
+}
+.fit-add-btn:hover { border-color:var(--violet); color:var(--violet-l); }
+
+/* ── SCROLL REVEAL ────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ───────────────────────────────────────── */
+@media (max-width: 900px) {
+  #home { grid-template-columns: 1fr; padding-top: 120px; }
+  .hero-visual { display: none; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; }
+  .about-img-wrap { margin: 0 auto 3rem; }
+  .services-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: rgba(10,15,30,.98); padding: 1.5rem; gap: 1rem; border-bottom: 1px solid var(--border); }
+  .nav-links.open { display: flex; }
+  .hamburger { display: flex; }
+}
+@media (max-width: 600px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; text-align: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blob, .reveal, .skill-fill { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient -->
+<div class="ambient">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#home" class="logo"><span>&lt;</span>Jeancel<span>/&gt;</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Accueil</a></li>
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-text reveal">
+    <div class="hero-eyebrow">Développeur Web & Philosophe - hacker ethique</div>
+    <h1 class="hero-name">
+      Razanatsery<br>Norbertin <span class="gold">Jeancel</span>
+    </h1>
+    <h2><p class="hero-typewriter"><span id="typewriter"></span><span class="cursor"></span></p></h2>
+    <p class="hero-title">
+      <span class="accent">Dev</span> × <span class="accent">Philo</span> — Code qui pense, design qui convainc
+    </p>
+    <p class="hero-desc">
+      Je conçois des expériences web modernes et performantes, nourries par une formation en philosophie des sciences. Chaque projet est une équation entre rigueur technique et sens du beau.
+    </p>
+    <div class="hero-btns">
+      <a href="#portfolio" class="btn-primary">Voir mon travail →</a>
+      <a href="#contact" class="btn-ghost">Me contacter</a>
+    </div>
+  </div>
+
+  <!-- Terminal signature -->
+  <div class="hero-visual reveal" style="transition-delay:.15s">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="terminal-title">jeancel@devphilo ~ python3</div>
+      </div>
+      <div class="terminal-body" id="terminalBody"></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat reveal">
+    <div class="stat-num" data-target="50">0</div>
+    <div class="stat-label">Projets réalisés</div>
+  </div>
+  <div class="stat reveal" style="transition-delay:.1s">
+    <div class="stat-num" data-target="35">0</div>
+    <div class="stat-label">Clients satisfaits</div>
+  </div>
+  <div class="stat reveal" style="transition-delay:.2s">
+    <div class="stat-num" data-target="5">0</div>
+    <div class="stat-label">Années d'expérience</div>
+  </div>
+</div>
+
+<!-- À PROPOS -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <img src="https://razanatserynorbertinjeancel-developer.netlify.app/images/A53377CC-7581-4FCF-93D1-AA08921CF513.jpeg" alt="Jeancel" class="about-img"/>
+        <div class="about-badge">
+          <strong>5+</strong>
+          ans d'XP
+        </div>
+      </div>
+      <div class="about-text reveal" style="transition-delay:.1s">
+        <div class="section-eyebrow">À propos de moi</div>
+        <h2 class="section-title">Code, pensée, et<br>création digitale</h2>
+        <p>Je suis <strong>développeur web et étudiant en philosophie</strong> à l'ecole polytechnique technique d'Antananarivo et Université catholique de Madagascar. Cette double formation forge une façon unique d'aborder chaque projet : rigoureuse, questionnante, toujours centrée sur l'humain.</p>
+        <p>Je travaille sur des sites vitrines, des applications web sur mesure et des solutions pour institutions. Mon approche mêle <strong>créativité technique</strong> et <strong>méthode agile</strong>, avec un soin particulier pour le détail et la performance.</p>
+        <p>Passionné par la <strong>philosophie des sciences</strong>, je crois que la meilleure technologie est celle qui s'efface pour laisser l'expérience parler.</p>
+
+        <div class="skills-grid" style="margin-top:2rem">
+          <div class="skill-card">
+            <div class="skill-head"><span class="skill-name">Frontend</span><span class="skill-pct">95%</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="95"></div></div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-head"><span class="skill-name">UX/UI Design</span><span class="skill-pct">90%</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="90"></div></div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-head"><span class="skill-name">Backend</span><span class="skill-pct">85%</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="85"></div></div>
+          </div>
+          <div class="skill-card">
+            <div class="skill-head"><span class="skill-name">SEO & Perf</span><span class="skill-pct">80%</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="80"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Mes services</div>
+    <h2 class="section-title reveal">Ce que je crée<br>pour vous</h2>
+    <p class="section-subtitle reveal">Des solutions sur mesure, pensées pour durer.</p>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">🌐</div>
+        <h3>Développement Web</h3>
+        <p>Sites responsifs, SPAs, e-commerce et applications métier avec les technologies modernes — HTML5, CSS3, JavaScript, React et plus encore.</p>
+      </div>
+      <div class="service-card reveal" style="transition-delay:.1s">
+        <div class="service-icon">🎨</div>
+        <h3>Design UX/UI</h3>
+        <p>Interfaces intuitives et esthétiques qui améliorent l'expérience utilisateur, optimisent les conversions et reflètent l'identité de votre marque.</p>
+      </div>
+      <div class="service-card reveal" style="transition-delay:.2s">
+        <div class="service-icon">📱</div>
+        <h3>Applications Mobile</h3>
+        <p>Apps cross-platform performantes pour iOS et Android avec React Native ou Flutter, du prototype au déploiement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Portfolio</div>
+    <h2 class="section-title reveal">Projets récents</h2>
+    <p class="section-subtitle reveal">Une sélection de travaux qui illustrent mon approche.</p>
+
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" data-filter="all">Tous</button>
+      <button class="filter-btn" data-filter="web">Web</button>
+      <button class="filter-btn" data-filter="design">Design</button>
+      <button class="filter-btn" data-filter="mobile">Mobile</button>
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card reveal" data-cat="web" onclick="openDemo('bachelard')">
+        <div class="project-thumb">
+          <img src="https://razanatserynorbertinjeancel-developer.netlify.app/images/DA3F4459-2CEA-4AD6-BCEF-9B26E62E0AD4.png" alt="Site Bachelard"/>
+          <div class="project-overlay"><span class="project-link">▶ Lancer la démo</span></div>
+        </div>
+        <div class="project-info">
+          <div class="project-type">Web · Philosophie</div>
+          <h3>Site Bachelard</h3>
+          <p>Site académique interactif sur la rupture épistémologique de Gaston Bachelard</p>
+          <button class="demo-badge" onclick="event.stopPropagation();openDemo('bachelard')">▶ Démo live</button>
+        </div>
+      </div>
+      <div class="project-card reveal" data-cat="design" style="transition-delay:.1s" onclick="openDemo('pdftool')">
+        <div class="project-thumb">
+          <img src="https://razanatserynorbertinjeancel-developer.netlify.app/images/27D9A8FD-02A9-421D-B661-3094B8EF07A9.png" alt="PDF Tool"/>
+          <div class="project-overlay"><span class="project-link">▶ Lancer la démo</span></div>
+        </div>
+        <div class="project-info">
+          <div class="project-type">Outil · PDF / EPUB</div>
+          <h3>PDF & EPUB Tool</h3>
+          <p>Outil de gestion documentaire pour chercheurs en philosophie — analyse, annotation, export</p>
+          <button class="demo-badge" onclick="event.stopPropagation();openDemo('pdftool')">▶ Démo live</button>
+        </div>
+      </div>
+      <div class="project-card reveal" data-cat="mobile" style="transition-delay:.2s" onclick="openDemo('fitness')">
+        <div class="project-thumb">
+          <img src="https://razanatserynorbertinjeancel-developer.netlify.app/images/1BD938EC-D482-4D8F-862B-459C38160272_1_105_c.jpeg" alt="App Fitness"/>
+          <div class="project-overlay"><span class="project-link">▶ Lancer la démo</span></div>
+        </div>
+        <div class="project-info">
+          <div class="project-type">Mobile · iOS/Android</div>
+          <h3>App Fitness Tracker</h3>
+          <p>Application de suivi d'entraînement et nutrition cross-platform avec tableau de bord</p>
+          <button class="demo-badge" onclick="event.stopPropagation();openDemo('fitness')">▶ Démo live</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Contact</div>
+    <h2 class="section-title reveal">Travaillons ensemble</h2>
+    <p class="section-subtitle reveal">Un projet en tête ? Discutons-en.</p>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item reveal">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Localisation</h4>
+            <p>Antananarivo, Madagascar</p>
+          </div>
+        </div>
+        <div class="contact-item reveal" style="transition-delay:.1s">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4>Téléphone</h4>
+            <p>+261 34 18 626 16</p>
+          </div>
+        </div>
+        <div class="contact-item reveal" style="transition-delay:.2s">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <p>norberthinjeancel@gmail.com</p>
+          </div>
+        </div>
+        <div class="social-links reveal" style="transition-delay:.3s">
+          <a href="#" class="social-btn" title="GitHub">GH</a>
+          <a href="#" class="social-btn" title="LinkedIn">in</a>
+          <a href="#" class="social-btn" title="Twitter">𝕏</a>
+          <a href="#" class="social-btn" title="Dribbble">Dr</a>
+        </div>
+      </div>
+      <div class="contact-form reveal" style="transition-delay:.15s">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" placeholder="Votre nom"/>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="votre@email.com"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Sujet</label>
+          <input type="text" placeholder="Objet de votre message"/>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Décrivez votre projet..."></textarea>
+        </div>
+        <button class="btn-primary" style="align-self:flex-start;border:none;cursor:pointer">Envoyer le message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     MODAL 1 — BACHELARD
+════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-bachelard">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-dots">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="modal-title">bachelard-site · localhost:3000</div>
+      <button class="modal-close" onclick="closeDemo('bachelard')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="demo-bachelard">
+        <nav class="bach-nav">
+          <button class="bach-tab active" onclick="bachTab(this,'accueil')">🏛 Accueil</button>
+          <button class="bach-tab" onclick="bachTab(this,'rupture')">⚡ Rupture Épistémologique</button>
+          <button class="bach-tab" onclick="bachTab(this,'biographie')">📖 Biographie</button>
+          <button class="bach-tab" onclick="bachTab(this,'oeuvres')">📚 Œuvres</button>
+        </nav>
+
+        <!-- Accueil -->
+        <div class="bach-page active" id="bach-accueil">
+          <div class="bach-hero">
+            <h1>Gaston Bachelard</h1>
+            <p>1884 – 1962 · Philosophe & Épistémologue français</p>
+            <p style="margin-top:.8rem;font-size:.85rem;color:var(--muted)">
+              "Le premier obstacle à la culture scientifique, c'est la connaissance usuelle."
+            </p>
+          </div>
+          <div class="bach-quote">
+            "Rien ne va de soi. Rien n'est donné. Tout est construit."
+            <cite>— Gaston Bachelard, La Formation de l'Esprit Scientifique (1938)</cite>
+          </div>
+          <p style="color:var(--muted);font-size:.88rem;line-height:1.8">
+            Ce site académique explore la pensée de Bachelard, notamment sa théorie de la
+            <strong style="color:var(--violet-l)">rupture épistémologique</strong> et du
+            <strong style="color:var(--cyan)">nouvel esprit scientifique</strong>.
+            Développé dans le cadre d'un mémoire de philosophie au Grand Séminaire
+            Interdiocésain Saint Jean-Baptiste d'Antananarivo.
+          </p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem">
+            <div class="bach-card">
+              <h4>🔬 Épistémologie</h4>
+              <p>La science se construit contre l'évidence immédiate et les préjugés du sens commun.</p>
+            </div>
+            <div class="bach-card">
+              <h4>💡 Nouvel Esprit</h4>
+              <p>La connaissance scientifique exige une rupture permanente avec l'intuition première.</p>
+            </div>
+            <div class="bach-card">
+              <h4>🌙 Poétique</h4>
+              <p>L'imagination matérielle : l'eau, le feu, la terre et l'air comme archétypes poétiques.</p>
+            </div>
+            <div class="bach-card">
+              <h4>⏳ Phénoménologie</h4>
+              <p>Le temps vécu, la durée intérieure et l'instant poétique comme expériences fondamentales.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rupture -->
+        <div class="bach-page" id="bach-rupture">
+          <h2 class="bach-section-title">La Rupture Épistémologique</h2>
+          <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem">
+            Concept central de Bachelard : la science ne progresse pas par accumulation, mais par
+            <em>rupture</em> avec les représentations antérieures.
+          </p>
+          <div class="bach-quote">
+            "On connaît contre une connaissance antérieure, en détruisant des connaissances mal faites."
+            <cite>— La Formation de l'Esprit Scientifique</cite>
+          </div>
+          <h3 class="bach-section-title" style="font-size:1rem">Les obstacles épistémologiques</h3>
+          <div class="bach-card"><h4>1. L'expérience première</h4><p>La connaissance empirique brute bloque la pensée abstraite scientifique.</p></div>
+          <div class="bach-card"><h4>2. L'obstacle substantialiste</h4><p>Tendance à attribuer une substance à des propriétés (ex. : le phlogistique).</p></div>
+          <div class="bach-card"><h4>3. L'obstacle animiste</h4><p>Projection de la vie et de l'intention sur des phénomènes inanimés.</p></div>
+          <div class="bach-card"><h4>4. L'obstacle verbal</h4><p>Les métaphores trop imagées qui fixent la pensée au lieu de la libérer.</p></div>
+          <h3 class="bach-section-title" style="font-size:1rem;margin-top:1.5rem">Le profil épistémologique</h3>
+          <p style="color:var(--muted);font-size:.85rem;margin-bottom:1rem">Chaque concept scientifique traverse plusieurs stades philosophiques :</p>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <div style="display:flex;align-items:center;gap:.8rem;font-size:.83rem">
+              <span style="width:110px;color:var(--muted)">Animisme</span>
+              <div style="flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:4px"><div style="width:10%;height:100%;background:#FF5F57;border-radius:4px"></div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:.8rem;font-size:.83rem">
+              <span style="width:110px;color:var(--muted)">Empirisme</span>
+              <div style="flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:4px"><div style="width:30%;height:100%;background:var(--gold);border-radius:4px"></div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:.8rem;font-size:.83rem">
+              <span style="width:110px;color:var(--muted)">Rationalisme</span>
+              <div style="flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:4px"><div style="width:65%;height:100%;background:var(--violet);border-radius:4px"></div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:.8rem;font-size:.83rem">
+              <span style="width:110px;color:var(--muted)">Sur-rationalisme</span>
+              <div style="flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:4px"><div style="width:90%;height:100%;background:var(--cyan);border-radius:4px"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Biographie -->
+        <div class="bach-page" id="bach-biographie">
+          <h2 class="bach-section-title">Biographie</h2>
+          <div class="bach-timeline">
+            <div class="bach-event"><h4>1884 — Naissance</h4><p>Bar-sur-Aube, Champagne, France. Fils de commerçants.</p></div>
+            <div class="bach-event"><h4>1903 — Employé PTT</h4><p>Travaille comme télégraphiste. Études en autodidacte.</p></div>
+            <div class="bach-event"><h4>1920 — Professeur</h4><p>Enseigne la physique et la chimie à Bar-sur-Aube.</p></div>
+            <div class="bach-event"><h4>1927 — Doctorat</h4><p>Soutient deux thèses à Paris. Reconnu dans la communauté philosophique.</p></div>
+            <div class="bach-event"><h4>1938 — Œuvre majeure</h4><p><em>La Formation de l'Esprit Scientifique</em> — concept de rupture épistémologique.</p></div>
+            <div class="bach-event"><h4>1940 — Sorbonne</h4><p>Chaire d'Histoire et Philosophie des Sciences à l'Université de Paris.</p></div>
+            <div class="bach-event"><h4>1962 — Décès</h4><p>Paris. Laisse une œuvre considérable entre science et poétique.</p></div>
+          </div>
+        </div>
+
+        <!-- Œuvres -->
+        <div class="bach-page" id="bach-oeuvres">
+          <h2 class="bach-section-title">Œuvres principales</h2>
+          <div class="bach-card"><h4>📗 La Formation de l'Esprit Scientifique (1938)</h4><p>Œuvre fondatrice sur les obstacles épistémologiques et la psychanalyse de la connaissance objective.</p></div>
+          <div class="bach-card"><h4>📘 Le Nouvel Esprit Scientifique (1934)</h4><p>Analyse de la révolution scientifique du XXe siècle : relativité, mécanique quantique.</p></div>
+          <div class="bach-card"><h4>📙 La Psychanalyse du Feu (1938)</h4><p>Premier grand ouvrage de poétique matérielle — l'imagination et le feu.</p></div>
+          <div class="bach-card"><h4>📕 L'Eau et les Rêves (1942)</h4><p>Essai sur l'imagination de la matière aqueuse dans la littérature et la psyché.</p></div>
+          <div class="bach-card"><h4>📓 La Poétique de l'Espace (1957)</h4><p>Phénoménologie des espaces vécus : la maison, le nid, le coin, la miniature.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     MODAL 2 — PDF & EPUB TOOL
+════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-pdftool">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-dots">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="modal-title">PhiloDoc — Gestionnaire PDF/EPUB pour chercheurs</div>
+      <button class="modal-close" onclick="closeDemo('pdftool')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="demo-pdf">
+        <div class="pdf-layout">
+          <div class="pdf-sidebar">
+            <h3>Bibliothèque</h3>
+            <div class="pdf-file active" onclick="selectDoc(this,'bachelard')">
+              <span class="pdf-file-icon">📗</span> Formation Esprit Sci.
+            </div>
+            <div class="pdf-file" onclick="selectDoc(this,'kant')">
+              <span class="pdf-file-icon">📘</span> Critique de la Raison
+            </div>
+            <div class="pdf-file" onclick="selectDoc(this,'hegel')">
+              <span class="pdf-file-icon">📙</span> Phénoménologie
+            </div>
+            <div class="pdf-file" onclick="selectDoc(this,'husserl')">
+              <span class="pdf-file-icon">📕</span> Idées directrices
+            </div>
+            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+              <h3>Actions</h3>
+              <button class="pdf-btn" style="width:100%;margin-bottom:.4rem;text-align:left" onclick="showNotif('📤 Export PDF généré')">📤 Exporter PDF</button>
+              <button class="pdf-btn" style="width:100%;margin-bottom:.4rem;text-align:left" onclick="showNotif('📖 Converti en EPUB')">📖 Vers EPUB</button>
+              <button class="pdf-btn" style="width:100%;text-align:left" onclick="showNotif('📋 Références copiées')">📋 Citer (APA)</button>
+            </div>
+          </div>
+          <div class="pdf-main">
+            <div class="pdf-toolbar">
+              <button class="pdf-btn active" onclick="pdfView(this,'lecture')">📄 Lecture</button>
+              <button class="pdf-btn" onclick="pdfView(this,'annotation')">✏️ Annotations</button>
+              <button class="pdf-btn" onclick="pdfView(this,'stats')">📊 Statistiques</button>
+              <button class="pdf-btn" onclick="showNotif('🔍 Recherche en cours…')">🔍 Rechercher</button>
+            </div>
+            <div id="pdf-view-lecture" class="pdf-viewer">
+              <p style="font-size:.75rem;color:var(--muted);margin-bottom:1rem">
+                La Formation de l'Esprit Scientifique · Chapitre I · p. 13
+              </p>
+              <p style="margin-bottom:1rem">
+                Nous croyons en d'autres termes que la <span class="pdf-highlight" title="Concept clé" onclick="showNotif('📝 Note : obstacle épistémologique ajoutée')">connaissance du réel est une lumière qui projette toujours quelque part des ombres</span>.
+                Elle n'est jamais immédiate et pleine.
+              </p>
+              <p style="margin-bottom:1rem">
+                Les révélations du réel sont toujours récurrentes. Le réel n'est jamais "ce qu'on pourrait croire" mais il est toujours <span class="pdf-highlight" onclick="showNotif('📝 Passage surligné')">"ce qu'on aurait dû penser"</span>.
+              </p>
+              <p style="color:var(--muted);font-size:.85rem">
+                La pensée empirique est claire, en image, quand elle est immédiate. Mais <strong style="color:var(--white)">l'expérience scientifique</strong> est une expérience qui contredit l'expérience commune.
+              </p>
+              <p style="margin-top:.8rem;font-size:.78rem;color:var(--muted);font-style:italic">
+                💡 Cliquer sur les passages surlignés pour ajouter des notes
+              </p>
+            </div>
+            <div id="pdf-view-annotation" class="pdf-viewer" style="display:none">
+              <div class="pdf-note">
+                <strong>📝 Note #1</strong> — p.13
+                <p style="color:var(--muted);font-size:.83rem;margin-top:.3rem">
+                  "Connaissance du réel" → relier avec Kant, Critique de la Raison Pure, §12. Idée de limitation de la connaissance humaine.
+                </p>
+              </div>
+              <div class="pdf-note" style="margin-top:.8rem">
+                <strong>📝 Note #2</strong> — p.17
+                <p style="color:var(--muted);font-size:.83rem;margin-top:.3rem">
+                  Obstacle épistémologique = toute connaissance préalable qui freine l'acquisition de la vraie connaissance scientifique.
+                </p>
+              </div>
+              <div class="pdf-note" style="margin-top:.8rem">
+                <strong>🔖 Signet</strong> — Chapitre IV
+                <p style="color:var(--muted);font-size:.83rem;margin-top:.3rem">
+                  Reprendre la notion de "profil épistémologique" — à développer dans la partie 2 du mémoire.
+                </p>
+              </div>
+              <button class="fit-add-btn" onclick="showNotif('✏️ Nouvelle annotation créée')">+ Nouvelle annotation</button>
+            </div>
+            <div id="pdf-view-stats" class="pdf-viewer" style="display:none">
+              <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">Analyse de la bibliothèque · 4 documents</p>
+              <div class="pdf-stats">
+                <div class="pdf-stat"><strong>847</strong><span>Pages totales</span></div>
+                <div class="pdf-stat"><strong>23</strong><span>Annotations</span></div>
+                <div class="pdf-stat"><strong>4</strong><span>Documents</span></div>
+                <div class="pdf-stat"><strong>12h</strong><span>Temps de lecture</span></div>
+              </div>
+              <p style="font-size:.8rem;color:var(--muted);margin-top:1.2rem;margin-bottom:.5rem">Progression par document :</p>
+              <div style="display:flex;flex-direction:column;gap:.6rem">
+                <div style="font-size:.8rem"><span style="color:var(--white)">Formation Esprit Sci.</span><div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:3px"><div style="width:78%;height:100%;background:var(--violet);border-radius:3px"></div></div></div>
+                <div style="font-size:.8rem"><span style="color:var(--white)">Critique de la Raison</span><div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:3px"><div style="width:45%;height:100%;background:var(--cyan);border-radius:3px"></div></div></div>
+                <div style="font-size:.8rem"><span style="color:var(--white)">Phénoménologie</span><div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:3px"><div style="width:20%;height:100%;background:var(--gold);border-radius:3px"></div></div></div>
+                <div style="font-size:.8rem"><span style="color:var(--white)">Idées directrices</span><div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:3px"><div style="width:5%;height:100%;background:#FF5F57;border-radius:3px"></div></div></div>
+              </div>
+            </div>
+            <div id="pdf-notif" style="display:none;margin-top:1rem;padding:.7rem 1rem;background:rgba(124,58,237,.2);border:1px solid var(--violet);border-radius:8px;font-size:.82rem;color:var(--violet-l)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     MODAL 3 — FITNESS TRACKER
+════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-fitness">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-dots">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      </div>
+      <div class="modal-title">FitTrack · Tableau de bord — Jeancel</div>
+      <button class="modal-close" onclick="closeDemo('fitness')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="demo-fitness">
+        <div class="fit-header">
+          <div>
+            <h2>Bonjour, Jeancel 👋</h2>
+            <p>Mardi 8 Juillet 2026 · Séance : Force & Cardio</p>
+          </div>
+          <div class="fit-streak">
+            <strong id="streakCount">7</strong>
+            <span>jours consécutifs 🔥</span>
+          </div>
+        </div>
+        <div class="fit-body">
+          <div class="fit-grid">
+            <div class="fit-kpi purple">
+              <div class="kpi-val" id="calBurned">0</div>
+              <div class="kpi-lbl">kcal brûlées</div>
+            </div>
+            <div class="fit-kpi cyan">
+              <div class="kpi-val" id="minDone">0</div>
+              <div class="kpi-lbl">minutes actives</div>
+            </div>
+            <div class="fit-kpi gold">
+              <div class="kpi-val" id="litresDone">0.0</div>
+              <div class="kpi-lbl">litres d'eau</div>
+            </div>
+          </div>
+
+          <div class="fit-section">
+            <h4>Séance du jour — cocher au fur et à mesure</h4>
+            <div class="fit-exercise" onclick="toggleEx(this,120,18,0.3)">
+              <div class="fit-ex-icon">🏃</div>
+              <div class="fit-ex-info"><strong>Cardio HIIT</strong><span>20 min · Intervalles 40s/20s</span></div>
+              <div class="fit-ex-sets">×8 séries</div>
+              <div class="fit-check" data-done="0" onclick="toggleExercise(this)">✓</div>
+            </div>
+            <div class="fit-exercise" onclick="toggleEx(this,80,15,0.25)">
+              <div class="fit-ex-icon">💪</div>
+              <div class="fit-ex-info"><strong>Pompes déclinées</strong><span>3×15 reps · 60s repos</span></div>
+              <div class="fit-ex-sets">×3 séries</div>
+              <div class="fit-check" data-done="0" onclick="toggleExercise(this)">✓</div>
+            </div>
+            <div class="fit-exercise" onclick="toggleEx(this,60,12,0.3)">
+              <div class="fit-ex-icon">🏋️</div>
+              <div class="fit-ex-info"><strong>Squats bulgares</strong><span>3×12 reps par jambe</span></div>
+              <div class="fit-ex-sets">×3 séries</div>
+              <div class="fit-check" data-done="0" onclick="toggleExercise(this)">✓</div>
+            </div>
+            <div class="fit-exercise" onclick="toggleEx(this,45,10,0.2)">
+              <div class="fit-ex-icon">🧘</div>
+              <div class="fit-ex-info"><strong>Gainage planche</strong><span>3×45s · Variantes latérales</span></div>
+              <div class="fit-ex-sets">×3 séries</div>
+              <div class="fit-check" data-done="0" onclick="toggleExercise(this)">✓</div>
+            </div>
+            <button class="fit-add-btn" onclick="showFitNotif('➕ Exercice ajouté à la séance')">+ Ajouter un exercice</button>
+          </div>
+
+          <div class="fit-section">
+            <h4>Nutrition du jour</h4>
+            <div class="fit-macros">
+              <div class="fit-macro">
+                <strong style="color:var(--violet-l)" id="macroP">112</strong>
+                <span>g Protéines</span>
+                <div class="fit-macro-bar"><div class="fit-macro-fill" style="width:75%;background:var(--violet)"></div></div>
+              </div>
+              <div class="fit-macro">
+                <strong style="color:var(--cyan)" id="macroG">180</strong>
+                <span>g Glucides</span>
+                <div class="fit-macro-bar"><div class="fit-macro-fill" style="width:60%;background:var(--cyan)"></div></div>
+              </div>
+              <div class="fit-macro">
+                <strong style="color:var(--gold)" id="macroL">48</strong>
+                <span>g Lipides</span>
+                <div class="fit-macro-bar"><div class="fit-macro-fill" style="width:55%;background:var(--gold)"></div></div>
+              </div>
+              <div class="fit-macro">
+                <strong style="color:#A8E6CF" id="macroC">1680</strong>
+                <span>kcal totales</span>
+                <div class="fit-macro-bar"><div class="fit-macro-fill" style="width:70%;background:#A8E6CF"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fit-section" style="margin-top:1rem">
+            <h4>Ajouter un aliment</h4>
+            <div style="display:flex;gap:.6rem">
+              <input id="food-input" type="text" placeholder="Ex : riz complet, poulet grillé…"
+                style="flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:.6rem 1rem;color:var(--white);font-family:var(--ff-body);font-size:.85rem;outline:none"/>
+              <button class="btn-primary" style="padding:.6rem 1.2rem;font-size:.82rem;border:none;cursor:pointer;white-space:nowrap" onclick="addFood(this)">+ Ajouter</button>
+            </div>
+            <div id="food-log" style="margin-top:.8rem;display:flex;flex-direction:column;gap:.4rem"></div>
+          </div>
+
+          <div id="fit-notif" style="display:none;padding:.7rem 1rem;background:rgba(6,182,212,.15);border:1px solid var(--cyan);border-radius:8px;font-size:.82rem;color:var(--cyan-l);margin-top:.5rem"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span>&lt;</span>Jeancel<span>/&gt;</span></div>
+  <div class="footer-links">
+    <a href="#home">Accueil</a>
+    <a href="#about">À propos</a>
+    <a href="#services">Services</a>
+    <a href="#portfolio">Portfolio</a>
+  </div>
+  <div class="footer-copy">© 2026 Jeancel · Tous droits réservés</div>
+</footer>
+
+<script>
+  
+/* ── HAMBURGER ────────────────────────────────────────── */
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+/* ── TERMINAL TYPEWRITER ──────────────────────────────── */
+const lines = [
+  { text: '# philosophe & développeur', cls: 't-comment' },
+  { text: 'class Jeancel:', cls: 't-kw' },
+  { text: '    passion = ', cls: 't-var', inline: [{ text: '"code + philo"', cls: 't-str' }] },
+  { text: '    lieu    = ', cls: 't-var', inline: [{ text: '"Antananarivo 🇲🇬"', cls: 't-str' }] },
+  { text: '    devise  = ', cls: 't-var', inline: [{ text: '"Penser. Créer. Livrer."', cls: 't-str' }] },
+  { text: '', cls: '' },
+  { text: '    def créer(self, projet):', cls: 't-fn' },
+  { text: '        return', cls: 't-kw', inline: [{ text: ' expérience_unique', cls: 't-var' }] },
+];
+
+const body = document.getElementById('terminalBody');
+let li = 0, ci = 0;
+
+function typeLine() {
+  if (li >= lines.length) return;
+  const line = lines[li];
+  const fullText = line.text + (line.inline ? line.inline.map(i => i.text).join('') : '');
+
+  if (li === lines.length - 1 && ci === fullText.length) {
+    // done — keep cursor
+    const span = document.createElement('span');
+    span.className = 'cursor';
+    body.appendChild(span);
+    return;
+  }
+
+  if (ci === 0) {
+    // new line element
+    const p = document.createElement('div');
+    p.id = 'line-' + li;
+    body.appendChild(p);
+  }
+
+  const el = document.getElementById('line-' + li);
+  // rebuild the line each char
+  el.innerHTML = '';
+  const lineStr = line.text;
+  const typed = fullText.substring(0, ci + 1);
+
+  // simple rendering: highlight keywords
+  el.innerHTML = syntaxHL(typed);
+
+  ci++;
+  if (ci > fullText.length) { ci = 0; li++; setTimeout(typeLine, 60); return; }
+  setTimeout(typeLine, ci === 1 ? 140 : 28);
+}
+
+function syntaxHL(str) {
+  return str
+    .replace(/(&amp;|&lt;|&gt;)/g, s => s)
+    .replace(/(#.*)$/, '<span class="t-comment">$1</span>')
+    .replace(/\b(class|def|return|self)\b/g, '<span class="t-kw">$1</span>')
+    .replace(/"([^"]*)"/g, '<span class="t-str">"$1"</span>')
+    .replace(/\b(Jeancel|créer)\b(?=\(|:)/g, '<span class="t-fn">$&</span>');
+}
+
+setTimeout(typeLine, 800);
+
+/* ── SCROLL REVEAL ────────────────────────────────────── */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+/* ── SKILL BARS ───────────────────────────────────────── */
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const fill = e.target.querySelector('.skill-fill');
+      if (fill) fill.style.width = fill.dataset.width + '%';
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skill-card').forEach(c => barObserver.observe(c));
+
+/* ── COUNT-UP ─────────────────────────────────────────── */
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = +el.dataset.target;
+    let n = 0;
+    const step = Math.ceil(target / 40);
+    const t = setInterval(() => {
+      n = Math.min(n + step, target);
+      el.textContent = n + '+';
+      if (n >= target) clearInterval(t);
+    }, 35);
+    countObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num').forEach(el => countObserver.observe(el));
+
+/* ── PORTFOLIO FILTER ─────────────────────────────────── */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(card => {
+      const show = f === 'all' || card.dataset.cat === f;
+      card.style.opacity = show ? '1' : '0.25';
+      card.style.pointerEvents = show ? 'auto' : 'none';
+      card.style.transform = show ? '' : 'scale(0.97)';
+      card.style.transition = 'opacity .3s, transform .3s';
+    });
+  });
+});
+
+/* ── DEMO MODALS ──────────────────────────────────────── */
+function openDemo(id) {
+  document.getElementById('modal-' + id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeDemo(id) {
+  document.getElementById('modal-' + id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Fermer en cliquant l'overlay
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+});
+// Fermer avec Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+});
+
+/* ── BACHELARD TABS ───────────────────────────────────── */
+function bachTab(btn, id) {
+  document.querySelectorAll('.bach-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.bach-page').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('bach-' + id).classList.add('active');
+}
+
+/* ── PDF TOOL ─────────────────────────────────────────── */
+const docs = {
+  bachelard: {
+    title: 'La Formation de l\'Esprit Scientifique · p. 13',
+    content: `<p style="margin-bottom:1rem">Nous croyons que la <span class="pdf-highlight" onclick="showNotif('📝 Note ajoutée : obstacle épistémologique')">connaissance du réel est une lumière qui projette toujours quelque part des ombres</span>. Elle n'est jamais immédiate et pleine.</p>
+    <p style="margin-bottom:1rem">Les révélations du réel sont toujours récurrentes. Le réel n'est jamais "ce qu'on pourrait croire" mais il est toujours <span class="pdf-highlight" onclick="showNotif('📝 Passage surligné')">"ce qu'on aurait dû penser"</span>.</p>
+    <p style="color:var(--muted);font-size:.85rem">La pensée empirique est claire, en image, quand elle est immédiate. Mais <strong style="color:var(--white)">l'expérience scientifique</strong> est une expérience qui contredit l'expérience commune.</p>
+    <p style="margin-top:.8rem;font-size:.78rem;color:var(--muted);font-style:italic">💡 Cliquer sur les passages surlignés pour ajouter des notes</p>`
+  },
+  kant: {
+    title: 'Critique de la Raison Pure · Préface 2e éd.',
+    content: `<p style="margin-bottom:1rem">La raison humaine, dans un genre particulier de ses connaissances, a le destin singulier d'être accablée de questions qu'elle ne peut écarter.</p>
+    <p style="margin-bottom:1rem"><span class="pdf-highlight" onclick="showNotif('📝 Concept clé : impératif catégorique')">Agis seulement d'après la maxime grâce à laquelle tu peux vouloir en même temps qu'elle devienne une loi universelle.</span></p>
+    <p style="color:var(--muted);font-size:.85rem">La métaphysique est une connaissance spéculative de la raison, qui s'élève entièrement au-dessus de tout enseignement de l'expérience.</p>`
+  },
+  hegel: {
+    title: 'Phénoménologie de l\'Esprit · Introduction',
+    content: `<p style="margin-bottom:1rem">La vérité est le tout. Mais le tout n'est que l'essence se complétant elle-même par son propre développement.</p>
+    <p style="margin-bottom:1rem"><span class="pdf-highlight" onclick="showNotif('📝 Dialectique notée')">L'être, le néant et le devenir</span> constituent la première triade dialectique de la Science de la Logique.</p>
+    <p style="color:var(--muted);font-size:.85rem">Ce qui est rationnel est réel ; et ce qui est réel est rationnel. — Préface aux Principes de la philosophie du droit.</p>`
+  },
+  husserl: {
+    title: 'Idées directrices pour une phénoménologie · §1',
+    content: `<p style="margin-bottom:1rem">La phénoménologie pure ou transcendantale ne sera pas fondée comme science des faits, mais comme science des essences.</p>
+    <p style="margin-bottom:1rem"><span class="pdf-highlight" onclick="showNotif('📝 Épochè notée')">La réduction phénoménologique (épochè)</span> consiste à mettre entre parenthèses toute thèse du monde naturel.</p>
+    <p style="color:var(--muted);font-size:.85rem">Retourner aux choses elles-mêmes : tel est le mot d'ordre fondateur de la phénoménologie husserlienne.</p>`
+  }
+};
+
+function selectDoc(el, key) {
+  document.querySelectorAll('.pdf-file').forEach(f => f.classList.remove('active'));
+  el.classList.add('active');
+  pdfShowDoc(key);
+}
+
+function pdfShowDoc(key) {
+  const d = docs[key];
+  if (!d) return;
+  const viewer = document.getElementById('pdf-view-lecture');
+  if (viewer) {
+    viewer.innerHTML = `<p style="font-size:.75rem;color:var(--muted);margin-bottom:1rem">${d.title}</p>${d.content}`;
+  }
+}
+
+function pdfView(btn, view) {
+  document.querySelectorAll('.pdf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['lecture','annotation','stats'].forEach(v => {
+    const el = document.getElementById('pdf-view-' + v);
+    if (el) el.style.display = v === view ? 'block' : 'none';
+  });
+}
+
+function showNotif(msg) {
+  const n = document.getElementById('pdf-notif');
+  if (!n) return;
+  n.textContent = msg; n.style.display = 'block';
+  setTimeout(() => { n.style.display = 'none'; }, 2200);
+}
+
+/* ── FITNESS APP ──────────────────────────────────────── */
+function toggleExercise(el) {
+  el.classList.toggle('done');
+  const info = el.closest('.fit-exercise');
+  if (info) info.style.opacity = el.classList.contains('done') ? '.5' : '1';
+  showFitNotif(el.classList.contains('done') ? '✅ Exercice complété !' : '↩️ Exercice réinitialisé');
+}
+
+function addFood(btn) {
+  const input = document.getElementById('food-input');
+  if (!input || !input.value.trim()) return;
+  const val = input.value.trim();
+  input.value = '';
+  const list = document.getElementById('food-log');
+  if (list) {
+    const item = document.createElement('div');
+    item.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:.5rem .7rem;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.2);border-radius:6px;font-size:.8rem;margin-bottom:.4rem';
+    item.innerHTML = `<span>${val}</span><span style="color:var(--cyan);font-family:var(--ff-mono)">${Math.floor(Math.random()*250+80)} kcal</span>`;
+    list.appendChild(item);
+    const cal = document.getElementById('macroC');
+    if (cal) cal.textContent = (parseInt(cal.textContent) + Math.floor(Math.random()*250+80)) + '';
+  }
+  showFitNotif('🍽️ Aliment ajouté au journal');
+}
+
+function showFitNotif(msg) {
+  const n = document.getElementById('fit-notif');
+  if (!n) return;
+  n.textContent = msg; n.style.display = 'block';
+  setTimeout(() => { n.style.display = 'none'; }, 2000);
+}
+</script>
+</body>
+</html>
+print 
